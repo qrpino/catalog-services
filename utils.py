@@ -20,7 +20,7 @@ def dictFactory(cursor, row) -> dict:
         d[col[0]] = row[idx];
     return d;
 
-def connectDb(path : str = 'db/konpyutaden.db') -> sqlite3.Connection:
+def connectDb(path : str = 'db/db.db') -> sqlite3.Connection:
     """_summary_
 
     Args:

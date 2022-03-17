@@ -1,38 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <title>Home</title>
-</head>
-<body>
-    <header>
-        <div id="top-banner">
-            <div>
-                <a href="/index"><span>Home</span></a>
-            </div>
-            <div>
-                <span>Add Product</span>
-            </div>
-        </div>
-    </header>
-    <main>
-    <p>Hello</p>
-    <!-- flash tutorial : https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/ -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for category, message in messages %}
-                        <li>{{ category }} : {{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-    </main>
-    <footer>
+{% extends "base.html.jinja" %}
+{% block content %}
 
-    </footer>
-</body>
-</html>
+{% endblock %}

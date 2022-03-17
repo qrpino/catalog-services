@@ -1,0 +1,18 @@
+{% extends "base.html.jinja" %}
+{% block content %}
+{% if data %}
+    {% for resource in data %}
+        <div class="item">
+            <div>
+                <p>{{ resource['desc'] }}</p>
+            </div>
+            <div>
+                <p>{{ resource['price'] }}</p>
+            </div>
+            <div>
+                <a href="resource/{{resource['id']}}"><span>Edit</span></a>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}

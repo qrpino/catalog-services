@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href={{url_for('static', filename="css/style.css")}} rel="stylesheet">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <header>
+        <div id="top-banner">
+            <div>
+                <a href="/"><span>Home</span></a>
+            </div>
+            <div>
+                <a href="/resources">Resources</a>
+            </div>
+            <div>
+                <a href="/services">Services</a>
+            </div>
+            <div>
+                <a href="/services_types">Services Types</a>
+            </div>
+            <div>
+                <a href="/catalog_services_prices">Catalog Services Prices</a>
+            </div>
+        </div>
+    </header>
+    <main>
+    <!-- flash tutorial : https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/ -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li>{{ category }} : {{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>

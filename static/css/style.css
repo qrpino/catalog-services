@@ -5,3 +5,14 @@
 #top-banner > div {
     margin: auto;
 }
+
+.item {
+    display: flex;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.item > div {
+    margin: auto;
+}
