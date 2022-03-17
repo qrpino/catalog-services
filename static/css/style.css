@@ -1,0 +1,7 @@
+#top-banner {
+    display: flex;
+    width: 100%;
+}
+#top-banner > div {
+    margin: auto;
+}
