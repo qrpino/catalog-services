@@ -1,4 +1,20 @@
 {% extends "base.html.jinja" %}
+{% block title %}Services Types{% endblock%}
 {% block content %}
-
+<a href="/add-service-type"><p>Add a new service type</p></a>
+{% if data %}
+    {% for service_type in data %}
+        <div class="item">
+            <div>
+                <p>Name : {{ service_type['name'] }}</p>
+            </div>
+            <div>
+                <p>Description : {{ service_type['desc'] }}</p>
+            </div>
+            <div>
+                <a href="service-type/{{service_type['id']}}"><span>Edit</span></a>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
 {% endblock %}

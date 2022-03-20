@@ -1,5 +1,7 @@
 {% extends "base.html.jinja" %}
+{% block title %}Services{% endblock%}
 {% block content %}
+<a href="/add-service"><p>Add a new service</p></a>
 {% if data %}
     {% for service in data %}
     

@@ -1,0 +1,13 @@
+{% extends "base.html.jinja" %}
+{% block title %}Edit Resource{% endblock %}
+{% block content %}
+    <form name="edit-resource" method="POST" action="/resources">
+        <label for="name">Name :</label>
+        <input type="text" name="name" value="{{data['name']}}">
+        <label for="desc">Description :</label>
+        <textarea name="desc" value="{{data['desc']}}"></textarea>
+        <label for="price">Price :</label>
+        <input type="number" name="price" value="{{data['price']}}">
+        <input type="submit" name="update_resource">
+    </form>
+{% endblock %}

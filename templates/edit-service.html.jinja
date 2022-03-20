@@ -1,0 +1,10 @@
+{% extends "base.html.jinja" %}
+{% block title %}Edit Service{% endblock %}
+{% block content %}
+    <form name="edit-service" method="POST" action="/services">
+        <label for="name">Name :<input type="text" name="name" value="{{data['name']}}"></label>
+        <label for="desc">Description :<textarea name="desc" value="{{data['desc']}}"></textarea></label>
+        <label for="price">Price :<input type="number" name="price" value="{{data['price']}}"></label>
+        <input type="submit" name="update_service">
+    </form>
+{% endblock %}

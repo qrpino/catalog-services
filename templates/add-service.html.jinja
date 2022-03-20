@@ -1,0 +1,83 @@
+{% extends "base.html.jinja" %}
+{% block title %}Add Service{% endblock %}
+{% block content %}
+<form name="add-service" method="POST" action="/services">
+    <label for="service_type">Service Type :<select name="service_type"></label>
+        {% for service_type in services_types %}
+            <option value="{{service_type['id']}}">{{service_type['name']}}</option>
+        {% endfor %}
+    <label for="name">Name :</label>
+    <input type="text" name="name">
+    <label for="desc">Description :</label>
+    <textarea name="desc"></textarea>
+    <label for="starting_date">Starting date :</label>
+    <input type="date" name="starting_date">
+    <label for="ending_date">Ending date :</label>
+    <input type="date" name="ending_date">
+    <label for="resources_needed">Resources needed :</label>
+    <div id="resources_div">
+    <label for="different_resources_count">Current Different Resources :</label>
+    <input type="number" name="different_resources_count" readonly value="1" id="different_resources_count">
+    <input type="button" value="Withdraw Resource Input" id="withdraw-resource-button">
+    <input type="button" value="Add Resource Input" id="add-resource-button">
+    <label for="resource_id_0">Resource :</label>
+    <select name="resource_id_0">
+        {% for resource in resources %}
+            <option value="{{resource['id']}}">{{resource['name']}}</option>
+        {% endfor %}
+    </select>
+    <label for="quantity_0">Quantity :</label>
+    <input name="quantity_0" type="number" value="1" min="1" step="1">
+    </div>
+    <input type="submit" name="add_service">
+</form>
+<script>
+    let differentResourcesCountLabel = document.querySelector("#different_resources_count");
+    let resourcesDiv = document.querySelector("#resources_div");
+    let resources_data = {{resources}};
+    function withdrawResourceInput()
+    {
+        if(resourcesDiv.childElementCount >= (4 * 2) + 2)
+        {
+            for(let i = 0; i < 4; i++)
+            {
+                resourcesDiv.removeChild(resourcesDiv.lastChild)
+            }
+            differentResourcesCountLabel.setAttribute("value", parseInt(differentResourcesCountLabel.getAttribute("value")) + 1);
+        }
+    }
+    function addResourceInput()
+    {
+        let newSelect = document.createElement("select");
+        newSelect.setAttribute("name", "resource_id_" + parseInt(differentResourcesCountLabel.getAttribute("value")));
+        let selectLabel = document.createElement("label");
+        selectLabel.setAttribute("for", newSelect.getAttribute("name"));
+        selectLabel.appendChild(document.createTextNode('Resource :'));
+        for(let i = 0; i < resources_data.length; i++)
+        {
+            let newOption = document.createElement("option");
+            newOption.setAttribute("value", resources_data[i]['id']);
+            newOption.appendChild(document.createTextNode(resources_data[i]['name']));
+            newSelect.appendChild(newOption);
+        }
+        let newCount = document.createElement("input");
+        newCount.setAttribute("name", "quantity_" + parseInt(differentResourcesCountLabel.getAttribute("value")));
+        newCount.setAttribute("type", "number");
+        newCount.setAttribute("value", "1");
+        newCount.setAttribute("min", "1");
+        newCount.setAttribute("step", "1");
+        let countLabel = document.createElement("label");
+        countLabel.setAttribute("for", newCount.getAttribute("name"));
+        countLabel.appendChild(document.createTextNode('Quantity :'));
+        resourcesDiv.appendChild(selectLabel);
+        resourcesDiv.appendChild(newSelect);
+        resourcesDiv.appendChild(countLabel);
+        resourcesDiv.appendChild(newCount);
+        differentResourcesCountLabel.setAttribute("value", parseInt(differentResourcesCountLabel.getAttribute("value")) + 1);
+    }
+    let withdrawResourceButton = document.querySelector("#withdraw-resource-button");
+    withdrawResourceButton.onclick = withdrawResourceInput;
+    let addResourceButton = document.querySelector("#add-resource-button");
+    addResourceButton.onclick = addResourceInput;
+</script>
+{% endblock %}

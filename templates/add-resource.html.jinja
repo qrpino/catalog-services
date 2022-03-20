@@ -1,0 +1,10 @@
+{% extends "base.html.jinja" %}
+{% block title %}Add Resource{% endblock %}
+{% block content %}
+    <form name="add-resource" method="POST" action="/resources">
+        <input type="text" name="name">
+        <textarea name="desc"></textarea>
+        <input type="number" name="price">
+        <input type="submit" name="add_resource">
+    </form>
+{% endblock %}

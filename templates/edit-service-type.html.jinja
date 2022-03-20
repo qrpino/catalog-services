@@ -1,0 +1,11 @@
+{% extends "base.html.jinja" %}
+{% block title %}Edit Service Type{% endblock %}
+{% block content %}
+    <form name="edit-resource" method="POST" action="/services-types">
+        <label for="name">Name :</label>
+        <input type="text" name="name" value="{{data['name']}}">
+        <label for="desc">Description :</label>
+        <textarea name="desc" value="{{data['desc']}}"></textarea>
+        <input type="submit" name="update_service_type">
+    </form>
+{% endblock %}

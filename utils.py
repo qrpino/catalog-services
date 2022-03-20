@@ -34,7 +34,7 @@ def connectDb(path : str = 'db/db.db') -> sqlite3.Connection:
         db = sqlite3.connect(path);
         db.row_factory = dictFactory;
     except Exception as err:
-        flash("Can't connect do database " + err, 'error');
+        flash("Can't connect do database " + str(err), 'error');
     return db;
 
 def updateDb(request : str, values : tuple = None):
@@ -55,7 +55,7 @@ def updateDb(request : str, values : tuple = None):
         db.commit();
         db.close();
     except Exception as err:
-        flash("Can't execute SQL request " + err, 'error');
+        flash("Can't execute SQL request : " + str(err), 'error');
 
 def getRowsFromDb(request : str, values : tuple = None) -> dict:
     """_summary_
@@ -76,7 +76,7 @@ def getRowsFromDb(request : str, values : tuple = None) -> dict:
             elementsFromDb = cursor.execute(request).fetchall();
         db.close();
     except Exception as err:
-        flash("Can't execute SQL request " + err, 'error')
+        flash("Can't execute SQL request " + str(err), 'error')
     return elementsFromDb;
 
 def getRowFromDb(request : str, values : tuple = None) -> dict:
@@ -98,7 +98,7 @@ def getRowFromDb(request : str, values : tuple = None) -> dict:
             elementFromDb = cursor.execute(request).fetchone();
         db.close()
     except Exception as err:
-        flash("Can't execute SQL request " + err, 'error')
+        flash("Can't execute SQL request " + str(err), 'error')
     return elementFromDb
 
 # Upload Section

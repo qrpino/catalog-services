@@ -20,10 +20,10 @@
                 <a href="/services">Services</a>
             </div>
             <div>
-                <a href="/services_types">Services Types</a>
+                <a href="/services-types">Services Types</a>
             </div>
             <div>
-                <a href="/catalog_services_prices">Catalog Services Prices</a>
+                <a href="/catalog-services-prices">Catalog Services Prices</a>
             </div>
         </div>
     </header>
@@ -32,13 +32,13 @@
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <ul>
-                    {% for category, message in messages %}
-                        <li>{{ category }} : {{ message }}</li>
+                    {% for message in messages %}
+                        <li>Flash message : {{ message }}</li>
                     {% endfor %}
                 </ul>
             {% endif %}
         {% endwith %}
-        {% block content %}
+        {% block content %} <!-- Ici, le contenu qui sera intégré par celui qui utilise la fonction extends -->
         {% endblock %}
     </main>
     <footer>
