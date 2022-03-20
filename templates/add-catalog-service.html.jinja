@@ -1,0 +1,21 @@
+{% extends "base.html.jinja" %}
+{% block title %}Add Catalog{% endblock %}
+{% block content %}
+<form name="add-catalog-service" method="POST" action="/catalog-services" class="add-form">
+    <label for="service_id">Service :</label>
+    <select name="service_id">
+        {% for service in services %}
+            <option value="{{service['id']}}">{{service['name']}}</option>
+        {% endfor %}
+    </select>
+    <label for="price">Price :</label>
+    <input name ="price" type="number" value="0.00" min="0.00" step="0.01">
+    <label for="discount_percentage">Percentage Discount :</label>
+    <input name="discount_percentage" type="number" value="0.00" min="0.00" max="100.00" step="0.01">
+    <label for="starting_date">Starting Date :</label>
+    <input name="starting_date" type="date">
+    <label for="ending_date">Ending Date :</label>
+    <input name="ending_date" type="date">
+    <input type="submit" name="add_catalog_service">
+</form>
+{% endblock %}

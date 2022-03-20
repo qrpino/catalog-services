@@ -17,3 +17,7 @@
 .item > div {
     margin: auto;
 }
+
+.add-form > *{
+    display: block;
+}

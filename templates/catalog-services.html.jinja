@@ -1,0 +1,27 @@
+{% extends "base.html.jinja" %}
+{% block title %}Catalogs{% endblock %}
+{% block content %}
+<a href="/add-catalog-service"><p>Add a new catalog</p></a>
+{% for catalog in data %}
+    <div class="item">
+        <div>
+            <p>ID : {{catalog['id']}}</p>
+        </div>
+        <div>
+            <p>Price : {{catalog['price']}}</p>
+        </div>
+        <div>
+            <p>Discount % : {{catalog['discount_percentage']}}</p>
+        </div>
+        <div>
+            <p>Starting date : {{catalog['starting_date']}}</p>
+        </div>
+        <div>
+            <p>Ending date : {{catalog['ending_date']}}</p>
+        </div>
+        <div>
+            <a href="catalog-service/{{catalog['id']}}"><p>Edit :</p></A>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

@@ -1,13 +1,15 @@
 {% extends "base.html.jinja" %}
 {% block title %}Add Service{% endblock %}
 {% block content %}
-<form name="add-service" method="POST" action="/services">
-    <label for="service_type">Service Type :<select name="service_type"></label>
+<form name="add-service" method="POST" action="/services" class="add-form">
+<div class="add-form">
+    <label for="service_type">Service Type :</label>
+    <select name="service_type">
         {% for service_type in services_types %}
             <option value="{{service_type['id']}}">{{service_type['name']}}</option>
         {% endfor %}
     <label for="name">Name :</label>
-    <input type="text" name="name">
+    <input name="name" type="text">
     <label for="desc">Description :</label>
     <textarea name="desc"></textarea>
     <label for="starting_date">Starting date :</label>
@@ -15,7 +17,7 @@
     <label for="ending_date">Ending date :</label>
     <input type="date" name="ending_date">
     <label for="resources_needed">Resources needed :</label>
-    <div id="resources_div">
+    <div id="resources_div" class="add-form">
     <label for="different_resources_count">Current Different Resources :</label>
     <input type="number" name="different_resources_count" readonly value="1" id="different_resources_count">
     <input type="button" value="Withdraw Resource Input" id="withdraw-resource-button">
@@ -30,6 +32,7 @@
     <input name="quantity_0" type="number" value="1" min="1" step="1">
     </div>
     <input type="submit" name="add_service">
+</div>
 </form>
 <script>
     let differentResourcesCountLabel = document.querySelector("#different_resources_count");
@@ -43,7 +46,7 @@
             {
                 resourcesDiv.removeChild(resourcesDiv.lastChild)
             }
-            differentResourcesCountLabel.setAttribute("value", parseInt(differentResourcesCountLabel.getAttribute("value")) + 1);
+            differentResourcesCountLabel.setAttribute("value", parseInt(differentResourcesCountLabel.getAttribute("value")) - 1);
         }
     }
     function addResourceInput()
