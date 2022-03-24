@@ -2,6 +2,7 @@
 {% block title %}Catalogs{% endblock %}
 {% block content %}
 <a href="/add-catalog-service"><p>Add a new catalog</p></a>
+{% if data|length > 0 %}
 {% for catalog in data %}
     <div class="item">
         <div>
@@ -22,6 +23,13 @@
         <div>
             <a href="catalog-service/{{catalog['id']}}"><p>Edit :</p></A>
         </div>
+        <form action="/catalog-services" method="POST">
+            <input type="text" value="{{catalog['id']}}" hidden name="id">
+            <input type="submit" value="DELETE" name="delete_catalog_service"> 
+        </form>
     </div>
 {% endfor %}
+{% else %}
+<p>No catalogs at all, you can create one.</p>
+{% endif%}
 {% endblock %}

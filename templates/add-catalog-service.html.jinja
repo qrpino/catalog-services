@@ -1,9 +1,10 @@
 {% extends "base.html.jinja" %}
 {% block title %}Add Catalog{% endblock %}
 {% block content %}
+{% if services|length > 0 %}
 <form name="add-catalog-service" method="POST" action="/catalog-services" class="add-form">
     <label for="service_id">Service :</label>
-    <select name="service_id">
+    <select name="service_id" id="service_id">
         {% for service in services %}
             <option value="{{service['id']}}">{{service['name']}}</option>
         {% endfor %}
@@ -13,9 +14,32 @@
     <label for="discount_percentage">Percentage Discount :</label>
     <input name="discount_percentage" type="number" value="0.00" min="0.00" max="100.00" step="0.01">
     <label for="starting_date">Starting Date :</label>
-    <input name="starting_date" type="date">
+    <input name="starting_date" type="date" id="starting_date" min="{{services[0]['starting_date']}}" max="{{services[0]['ending_date']}}">
     <label for="ending_date">Ending Date :</label>
-    <input name="ending_date" type="date">
+    <input name="ending_date" type="date" id="ending_date" min="{{services[0]['starting_date']}}" max="{{services[0]['ending_date']}}">
     <input type="submit" name="add_catalog_service">
 </form>
+<script>
+let data_services = {{services}}
+let selectService = document.querySelector('#service_id');
+let startingDateInput = document.querySelector('#starting_date')
+let endingDateInput = document.querySelector('#ending_date')
+selectService.addEventListener('change', (event) => {
+for(let i = 0; i < data_services.length; i++)
+{
+    if(event.target.value == data_services[i]['id'])
+    {
+        startingDateInput.setAttribute("min", data_services[i]['starting_date']);
+        startingDateInput.setAttribute("max", data_services[i]['ending_date']);
+        startingDateInput.valueAsDate = null;
+        endingDateInput.setAttribute("min", data_services[i]['starting_date']);
+        endingDateInput.setAttribute("max", data_services[i]['ending_date']);
+        endingDateInput.valueAsDate = null;
+    }
+}
+})
+</script>
+{% else %}
+    <p>No services found, can't add a catalog. Please create services first.</p>
+{% endif %}
 {% endblock %}

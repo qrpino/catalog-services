@@ -3,7 +3,7 @@
 {% block content %}
 <form name="update-catalog-service" method="POST" action="/catalog-services" class="add-form">
     <label for="id">ID :</label>
-    <input type="number" readonly value="{{data_catalog['id']}}">
+    <input type="number" readonly value="{{data_catalog['id']}}" name="id">
     <label for="service_id">Service :</label>
     <select name="service_id">
         {% for service in data_services %}

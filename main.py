@@ -38,9 +38,13 @@ def resources():
     if(request.method == 'POST'):
         posted_resource = request.form;
         if('add_resource' in posted_resource):
-            utils.updateDb('INSERT INTO resources (name, desc, price) VALUES (?, ?, ?)', (posted_resource['name'], posted_resource['desc'], posted_resource['price'],));
+            utils.updateDb('INSERT INTO resources (name, desc, price) VALUES (?, ?, ?)', 
+            (posted_resource['name'], posted_resource['desc'], posted_resource['price'],));
         elif('update_resource' in posted_resource):
-            utils.updateDb('UPDATE resources SET name = ?, desc = ?, price = ? WHERE id = ?', (posted_resource['name'], posted_resource['desc'], posted_resource['price'], posted_resource['id'],));
+            utils.updateDb('UPDATE resources SET name = ?, desc = ?, price = ? WHERE id = ?', 
+            (posted_resource['name'], posted_resource['desc'], posted_resource['price'], posted_resource['id'],));
+        elif('delete_resource' in posted_resource):
+            pass;
         # flash(resource['desc'] updated successfuly)
     data_resources = utils.getRowsFromDb('SELECT * from resources');
     return render_template('resources.html.jinja', data=data_resources);
@@ -65,6 +69,8 @@ def services():
             for i in range(0, int(posted_service['different_resources_count'])):
                 utils.updateDb('INSERT INTO resources_per_service (service_id, resource_id, quantity) VALUES (?, ?, ?)',
                 (requested_service['id'], posted_service['resource_id_' + str(i)], posted_service['quantity_' + str(i)],));
+        elif('update_service' in posted_service):
+            pass;
     data = {'services' : utils.getRowsFromDb('SELECT * from services'),
     'resources_per_service' : utils.getRowsFromDb('SELECT * from resources_per_service'),
     'resources' : utils.getRowsFromDb('SELECT * from resources')};
@@ -85,13 +91,15 @@ def add_service():
 @app.route('/catalog-services', methods = ['POST', 'GET'])
 def catalog_services():
     if(request.method == 'POST'):
-        posted_catalog = request.form
-        if('add_catalog_service' in request.form):
+        posted_catalog = request.form;
+        if('add_catalog_service' in posted_catalog):
             utils.updateDb('INSERT INTO catalog_services (service_id, starting_date, ending_date, discount_percentage, price) VALUES (?, ?, ?, ?, ?) ',
             (posted_catalog['service_id'],posted_catalog['starting_date'], posted_catalog['ending_date'], posted_catalog['discount_percentage'], posted_catalog['price'],));
-        elif('update_catalog_service' in request.form):
-            utils.updateDb('UPDATE catalog_services SET service_id = ?, starting_date = ?, ending_date = ?, discount_percentage = ?, price = ? ',
-            (posted_catalog['service_id'],posted_catalog['starting_date'], posted_catalog['ending_date'], posted_catalog['discount_percentage'], posted_catalog['price'],));
+        elif('update_catalog_service' in posted_catalog):
+            utils.updateDb('UPDATE catalog_services SET service_id = ?, starting_date = ?, ending_date = ?, discount_percentage = ?, price = ? WHERE id = ?',
+            (posted_catalog['service_id'],posted_catalog['starting_date'], posted_catalog['ending_date'], posted_catalog['discount_percentage'], posted_catalog['price'], posted_catalog['id'],));
+        elif('delete_catalog_service' in posted_catalog):
+            utils.updateDb('DELETE from catalog_services where id = ? ', (posted_catalog['id'],))
     data_catalogs = utils.getRowsFromDb('SELECT * from catalog_services');
     return render_template('catalog-services.html.jinja', data=data_catalogs);
 
@@ -103,5 +111,5 @@ def edit_catalog_service(id):
 
 @app.route('/add-catalog-service')
 def add_catalog_service():
-    data = utils.getRowsFromDb('SELECT id, name FROM services');
+    data = utils.getRowsFromDb('SELECT id, name, starting_date, ending_date FROM services');
     return render_template('add-catalog-service.html.jinja', services=data);

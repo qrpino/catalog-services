@@ -3,6 +3,7 @@
 {% block content %}
 <a href="/add-resource"><p>Add a new resource</p></a>
 {% if data %}
+    
     {% for resource in data %}
         <div class="item">
             <div>
@@ -17,6 +18,11 @@
             <div>
                 <a href="resource/{{resource['id']}}"><span>Edit</span></a>
             </div>
+            <form action="/resources" method="POST" class="add-form">
+                <label for="id">ID :</label>
+                <input name="id" readonly value="{{resource['id']}}">
+                <input type="submit" name="delete_resource" value="DELETE">
+            </form>
         </div>
     {% endfor %}
 {% endif %}
