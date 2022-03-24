@@ -9,13 +9,13 @@
             <option value="{{service_type['id']}}">{{service_type['name']}}</option>
         {% endfor %}
     <label for="name">Name :</label>
-    <input name="name" type="text">
+    <input name="name" type="text" required>
     <label for="desc">Description :</label>
-    <textarea name="desc"></textarea>
+    <textarea name="desc" required></textarea>
     <label for="starting_date">Starting date :</label>
-    <input type="date" name="starting_date">
+    <input type="date" name="starting_date" required>
     <label for="ending_date">Ending date :</label>
-    <input type="date" name="ending_date">
+    <input type="date" name="ending_date" required>
     <label for="resources_needed">Resources needed :</label>
     <div id="resources_div" class="add-form">
     <label for="different_resources_count">Current Different Resources :</label>

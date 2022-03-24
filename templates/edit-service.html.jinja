@@ -1,10 +1,96 @@
 {% extends "base.html.jinja" %}
 {% block title %}Edit Service{% endblock %}
 {% block content %}
-    <form name="edit-service" method="POST" action="/services">
-        <label for="name">Name :<input type="text" name="name" value="{{data['name']}}"></label>
-        <label for="desc">Description :<textarea name="desc" value="{{data['desc']}}"></textarea></label>
-        <label for="price">Price :<input type="number" name="price" value="{{data['price']}}"></label>
-        <input type="submit" name="update_service">
-    </form>
+<form name="edit-service" method="POST" action="/services" class="add-form">
+<div class="add-form">
+    <label for="service_type">Service Type :</label>
+    <select name="service_type" value="{{service['service_type_id']}}">
+        {% for service_type in services_types %}
+            {% if service_type['id'] == service['service_type_id'] %}
+                <option value="{{service_type['id']}}" selected>{{service_type['name']}}</option>
+            {% else %}
+                <option value="{{service_type['id']}}">{{service_type['name']}}</option>
+            {% endif %}
+        {% endfor %}
+    <label for="name">Name :</label>
+    <input name="name" type="text" required value="{{service['name']}}">
+    <label for="desc">Description :</label>
+    <textarea name="desc" id="desc" required>{{service['desc']}}</textarea>
+    <label for="starting_date">Starting date :</label>
+    <input type="date" name="starting_date" required value="{{service['starting_date']}}">
+    <label for="ending_date">Ending date :</label>
+    <input type="date" name="ending_date" required value="{{service['ending_date']}}">
+    <label for="resources_needed">Resources needed :</label>
+    <div id="resources_div" class="add-form">
+    <label for="different_resources_count">Current Different Resources :</label>
+    <input type="number" name="different_resources_count" readonly value="{{resources_per_service|length}}" id="different_resources_count">
+    <input type="button" value="Withdraw Resource Input" id="withdraw-resource-button">
+    <input type="button" value="Add Resource Input" id="add-resource-button">
+    {% for resource_per_service in resources_per_service %}
+    <label for="resource_id_{{loop.index}}">Resource :</label>
+    <select name="resource_id_{{loop.index}}">
+        {% for resource in resources %}
+            {% if resource_per_service['resource_id'] == resource['id'] %}
+                <option value="{{resource['id']}}" selected>{{resource['name']}}</option>
+            {% else %}
+                <option value="{{resource['id']}}">{{resource['name']}}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <label for="quantity_{{loop.index}}">Quantity :</label>
+    <input name="quantity_{{loop.index}}" type="number" value="{{resource_per_service['quantity']}}" min="1" step="1">
+    {% endfor %}
+    </div>
+    <input type="submit" name="add_service">
+</div>
+</form>
+<script>
+    let differentResourcesCountLabel = document.querySelector("#different_resources_count");
+    let resourcesDiv = document.querySelector("#resources_div");
+    let resources_data = {{resources}};
+    function withdrawResourceInput()
+    {
+        if(resourcesDiv.childElementCount >= (4 * 2) + 2)
+        {
+            for(let i = 0; i < 4; i++)
+            {
+                resourcesDiv.removeChild(resourcesDiv.lastChild)
+            }
+            differentResourcesCountLabel.setAttribute("value", parseInt(differentResourcesCountLabel.getAttribute("value")) - 1);
+        }
+    }
+    function addResourceInput()
+    {
+        let newSelect = document.createElement("select");
+        newSelect.setAttribute("name", "resource_id_" + parseInt(differentResourcesCountLabel.getAttribute("value")));
+        let selectLabel = document.createElement("label");
+        selectLabel.setAttribute("for", newSelect.getAttribute("name"));
+        selectLabel.appendChild(document.createTextNode('Resource :'));
+        for(let i = 0; i < resources_data.length; i++)
+        {
+            let newOption = document.createElement("option");
+            newOption.setAttribute("value", resources_data[i]['id']);
+            newOption.appendChild(document.createTextNode(resources_data[i]['name']));
+            newSelect.appendChild(newOption);
+        }
+        let newCount = document.createElement("input");
+        newCount.setAttribute("name", "quantity_" + parseInt(differentResourcesCountLabel.getAttribute("value")));
+        newCount.setAttribute("type", "number");
+        newCount.setAttribute("value", "1");
+        newCount.setAttribute("min", "1");
+        newCount.setAttribute("step", "1");
+        let countLabel = document.createElement("label");
+        countLabel.setAttribute("for", newCount.getAttribute("name"));
+        countLabel.appendChild(document.createTextNode('Quantity :'));
+        resourcesDiv.appendChild(selectLabel);
+        resourcesDiv.appendChild(newSelect);
+        resourcesDiv.appendChild(countLabel);
+        resourcesDiv.appendChild(newCount);
+        differentResourcesCountLabel.setAttribute("value", parseInt(differentResourcesCountLabel.getAttribute("value")) + 1);
+    }
+    let withdrawResourceButton = document.querySelector("#withdraw-resource-button");
+    withdrawResourceButton.onclick = withdrawResourceInput;
+    let addResourceButton = document.querySelector("#add-resource-button");
+    addResourceButton.onclick = addResourceInput;
+</script>
 {% endblock %}

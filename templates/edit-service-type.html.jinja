@@ -5,9 +5,9 @@
         <label for="id">ID :</label>
         <input name="id" type="number" readonly value="{{data['id']}}">
         <label for="name">Name :</label>
-        <input type="text" name="name" value="{{data['name']}}">
+        <input required type="text" name="name" value="{{data['name']}}">
         <label for="desc">Description :</label>
-        <textarea name="desc">{{data['desc']}}</textarea>
+        <textarea required name="desc">{{data['desc']}}</textarea>
         <input type="submit" name="update_service_type">
     </form>
 {% endblock %}

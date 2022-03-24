@@ -14,6 +14,10 @@
             <div>
                 <a href="service-type/{{service_type['id']}}"><span>Edit</span></a>
             </div>
+            <form action="/services-types" method="POST">
+                <input name="id" readonly value="{{service_type['id']}}" hidden>
+                <input type="submit" name="delete_service_type" value="DELETE">
+            </form>
         </div>
     {% endfor %}
 {% endif %}

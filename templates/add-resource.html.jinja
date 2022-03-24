@@ -3,11 +3,11 @@
 {% block content %}
     <form name="add-resource" method="POST" action="/resources" class="add-form">
         <label for="name">Name :</label>
-        <input type="text" name="name">
+        <input type="text" required name="name">
         <label for="desc">Description :</label>
-        <textarea name="desc"></textarea>
+        <textarea name="desc" required></textarea>
         <label for="price">Price :</label>
-        <input type="number" name="price" min="0" value="0.00" step="0.01">
+        <input type="number" name="price" min="0" value="0.00" step="0.01" required>
         <input type="submit" name="add_resource">
     </form>
 {% endblock %}

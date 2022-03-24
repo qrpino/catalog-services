@@ -2,14 +2,37 @@
 {% block title %}Services{% endblock%}
 {% block content %}
 <a href="/add-service"><p>Add a new service</p></a>
+{% if services|length > 0 %}
 {% for service in services %}
     <div class="item">
+        <div>
+            <p>Id : {{ service['id'] }}</p>
+        </div>
         <div>
             <p>Name : {{ service['name'] }}</p>
         </div>
         <div>
+            <p>Service type :
+                {% if service['service_type_id'] in services_types|map(attribute="id") %}
+                    {{services_types[loop.index]['name']}}
+                {% else %}
+                Undefined
+                {% endif %}
+            </p>
+        </div>
+        <div>
             <p>Description : {{ service['desc'] }}</p>
         </div>
+        <div>
+            <a href="service/{{service['id']}}"><p>Edit</p></a>
+        </div>
+        <form action="/services" method="POST">
+            <input type="text" value="{{service['id']}}" readonly hidden name="id">
+            <input type="submit" value="DELETE" name="delete_service"> 
+        </form>
     </div>
 {% endfor %}
+{% else %}
+<p>No services at all, you can create one.</p>
+{% endif %}
 {% endblock %}

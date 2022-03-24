@@ -2,8 +2,7 @@
 {% block title %}Resources{% endblock%}
 {% block content %}
 <a href="/add-resource"><p>Add a new resource</p></a>
-{% if data %}
-    
+{% if data|length > 0 %}
     {% for resource in data %}
         <div class="item">
             <div>
@@ -25,5 +24,7 @@
             </form>
         </div>
     {% endfor %}
+{% else %}
+<p>No resource at all, you can create one.</p>
 {% endif %}
 {% endblock %}

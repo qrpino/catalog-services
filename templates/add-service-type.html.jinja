@@ -3,9 +3,9 @@
 {% block content %}
     <form action="/services-types" method="POST">
         <label for="name">Name :</label>
-        <input type="text" name="name">
+        <input type="text" name="name" required>
         <label for="desc">Description :</label>
-        <input type="text" name="desc">
+        <input type="text" name="desc" required>
         <input type="submit" name="add_service_type">
     </form>
 {% endblock %}
