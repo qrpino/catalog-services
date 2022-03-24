@@ -1,6 +1,3 @@
-from ast import dump
-from crypt import methods
-from ctypes import util
 from flask import Flask, flash, render_template, request
 import os
 import utils
@@ -147,7 +144,7 @@ def catalog_services():
 def edit_catalog_service(id):
     data_catalog = utils.getRowFromDb('SELECT * from catalog_services WHERE id = ?', (id,));
     data_services = utils.getRowsFromDb('SELECT id, name from services');
-    return render_template('edit-catalog-service.html.jinja', data_catalog=data_catalog, data_services=data_services);
+    return render_template('edit-catalog-service.html.jinja', catalog=data_catalog, services=data_services);
 
 @app.route('/add-catalog-service')
 def add_catalog_service():
