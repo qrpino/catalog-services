@@ -3,6 +3,8 @@
 {% block content %}
 <form name="edit-service" method="POST" action="/services" class="add-form">
 <div class="add-form">
+        <label for="id">ID :</label>
+        <input name="id" type="number" readonly value="{{service['id']}}">
     <label for="service_type">Service Type :</label>
     <select name="service_type" value="{{service['service_type_id']}}">
         {% for service_type in services_types %}
@@ -27,8 +29,8 @@
     <input type="button" value="Withdraw Resource Input" id="withdraw-resource-button">
     <input type="button" value="Add Resource Input" id="add-resource-button">
     {% for resource_per_service in resources_per_service %}
-    <label for="resource_id_{{loop.index}}">Resource :</label>
-    <select name="resource_id_{{loop.index}}">
+    <label for="resource_id_{{loop.index - 1}}">Resource :</label>
+    <select name="resource_id_{{loop.index - 1}}">
         {% for resource in resources %}
             {% if resource_per_service['resource_id'] == resource['id'] %}
                 <option value="{{resource['id']}}" selected>{{resource['name']}}</option>
@@ -37,11 +39,11 @@
             {% endif %}
         {% endfor %}
     </select>
-    <label for="quantity_{{loop.index}}">Quantity :</label>
-    <input name="quantity_{{loop.index}}" type="number" value="{{resource_per_service['quantity']}}" min="1" step="1">
+    <label for="quantity_{{loop.index - 1}}">Quantity :</label>
+    <input name="quantity_{{loop.index - 1}}" type="number" value="{{resource_per_service['quantity']}}" min="1" step="1">
     {% endfor %}
     </div>
-    <input type="submit" name="add_service">
+    <input type="submit" name="update_service">
 </div>
 </form>
 <script>
@@ -50,7 +52,7 @@
     let resources_data = {{resources}};
     function withdrawResourceInput()
     {
-        if(resourcesDiv.childElementCount >= (4 * 2) + 2)
+        if(resourcesDiv.childElementCount >= (4 * 2) + {{resources_per_service|length}})
         {
             for(let i = 0; i < 4; i++)
             {

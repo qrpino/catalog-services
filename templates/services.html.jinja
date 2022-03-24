@@ -13,11 +13,15 @@
         </div>
         <div>
             <p>Service type :
-                {% if service['service_type_id'] in services_types|map(attribute="id") %}
-                    {{services_types[loop.index]['name']}}
+           {% for service_type in services_types %}
+                {% if service['service_type_id'] == service_type['id'] %}
+                    {{service_type['name']}}
+                {% endif %} 
+            {% endfor %}
+               {# {% if service['service_type_id'] in services_types|map(attribute="id") %}
                 {% else %}
-                Undefined
-                {% endif %}
+                    Undefined
+                {% endif %} #}
             </p>
         </div>
         <div>

@@ -82,10 +82,12 @@ def services():
         elif('update_service' in posted_service):
             requested_service = utils.getRowFromDb('SELECT id from services WHERE name = ?', (posted_service['name'],));
             # Let's re-create all the resources_per_service rows used by the current service
-            utils.updateDb('DELETE from resources_per_services WHERE id = ? ', (posted_service['id'],));
+            utils.updateDb('DELETE from resources_per_service WHERE service_id = ? ', (posted_service['id'],));
             for i in range(0, int(posted_service['different_resources_count'])):
                 utils.updateDb('INSERT INTO resources_per_service (service_id, resource_id, quantity) VALUES (?, ?, ?)',
                 (requested_service['id'], posted_service['resource_id_' + str(i)], posted_service['quantity_' + str(i)],));
+            utils.updateDb('UPDATE services SET name = ?, desc = ?, service_type_id = ?, starting_date = ?, ending_date = ?) WHERE id = ?', 
+            (posted_service['name'], posted_service['desc'], posted_service['service_type'], posted_service['starting_date'], posted_service['ending_date'], posted_service['id'],));
             flash(posted_service['name'] + " updated successfully.");
         elif('delete_service' in posted_service):
             utils.updateDb('DELETE from resources_per_service WHERE service_id = ?', (posted_service['id'],));
