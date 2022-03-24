@@ -114,6 +114,20 @@ def add_service():
 
 @app.route('/catalog-services', methods = ['POST', 'GET'])
 def catalog_services():
+    data_catalogs = utils.getRowsFromDb('SELECT * from catalog_services');
+    for data_catalog in data_catalogs:
+        # A new key created to store the benefit (money from the sell - money from bought resources)
+        data_catalog['benefit'] = data_catalog['price'] * (100 - data_catalog['discount_percentage'])/100
+        # We need to parse resources per service to get the ID of the resources and their quantity
+        data_resources_per_service = utils.getRowsFromDb('SELECT * from resources_per_service WHERE service_id = ?', (data_catalog['service_id'],));
+        for data_resource_per_service in data_resources_per_service:
+            # We need to parse the resources to get the price we paid them
+            data_resources = utils.getRowsFromDb('SELECT * from resources WHERE id = ?', (data_resource_per_service['resource_id'],));
+            for data_resource in data_resources:
+                if(data_resource['id'] == data_resource_per_service['resource_id']):
+                    data_catalog['benefit'] -= data_resource['price'] * data_resource_per_service['quantity'];
+        # Let's troncate some decimals from the benefit
+        data_catalog['benefit'] = float("{:.2f}".format(data_catalog['benefit']));
     if(request.method == 'POST'):
         posted_catalog = request.form;
         if('add_catalog_service' in posted_catalog):
@@ -127,8 +141,7 @@ def catalog_services():
         elif('delete_catalog_service' in posted_catalog):
             utils.updateDb('DELETE from catalog_services WHERE id = ? ', (posted_catalog['id'],));
             flash("Catalog for Service ID " + posted_catalog['service_id'] + " deleted successfully.");
-    data_catalogs = utils.getRowsFromDb('SELECT * from catalog_services');
-    return render_template('catalog-services.html.jinja', data=data_catalogs);
+    return render_template('catalog-services.html.jinja', catalogs=data_catalogs);
 
 @app.route('/catalog-service/<id>')
 def edit_catalog_service(id):

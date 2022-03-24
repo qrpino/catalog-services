@@ -2,8 +2,8 @@
 {% block title %}Catalogs{% endblock %}
 {% block content %}
 <a href="/add-catalog-service"><p>Add a new catalog</p></a>
-{% if data|length > 0 %}
-{% for catalog in data %}
+{% if catalogs|length > 0 %}
+{% for catalog in catalogs %}
     <div class="item">
         <div>
             <p>ID : {{catalog['id']}}</p>
@@ -19,6 +19,10 @@
         </div>
         <div>
             <p>Ending date : {{catalog['ending_date']}}</p>
+        </div>
+        <div>
+            {# We get the key 'benefit' from the catalog_services function definition #}
+            <p>Benefit we make : {{catalog['benefit']}}
         </div>
         <div>
             <a href="catalog-service/{{catalog['id']}}"><p>Edit :</p></A>
