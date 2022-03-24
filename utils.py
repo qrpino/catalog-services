@@ -1,8 +1,6 @@
-from flask import Flask, flash, request
+from flask import flash
 import os
 import sqlite3
-import flask
-import jinja2
 from werkzeug.utils import secure_filename
 
 def dictFactory(cursor, row) -> dict:
