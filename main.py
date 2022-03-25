@@ -131,13 +131,19 @@ def catalog_services():
             utils.updateDb('INSERT INTO catalog_services (service_id, starting_date, ending_date, discount_percentage, price) VALUES (?, ?, ?, ?, ?) ',
             (posted_catalog['service_id'],posted_catalog['starting_date'], posted_catalog['ending_date'], posted_catalog['discount_percentage'], posted_catalog['price'],));
             flash("Catalog for Service ID " + posted_catalog['service_id'] + " created successfully.");
+            flash("Not seeing it ? Please click on this <a href='/catalog-services'><span>link</span></a> to reload the page");
         elif('update_catalog_service' in posted_catalog):
             utils.updateDb('UPDATE catalog_services SET service_id = ?, starting_date = ?, ending_date = ?, discount_percentage = ?, price = ? WHERE id = ?',
             (posted_catalog['service_id'],posted_catalog['starting_date'], posted_catalog['ending_date'], posted_catalog['discount_percentage'], posted_catalog['price'], posted_catalog['id'],));
             flash("Catalog for Service ID " + posted_catalog['service_id'] + " updated successfully.");
+            flash("Not seeing it ? Please click on this <a href='/catalog-services'><span>link</span></a> to reload the page");
         elif('delete_catalog_service' in posted_catalog):
             utils.updateDb('DELETE from catalog_services WHERE id = ? ', (posted_catalog['id'],));
-            flash("Catalog for Service ID " + posted_catalog['service_id'] + " deleted successfully.");
+            if(posted_catalog.get('service_id')):
+                flash("Catalog for Service ID " + posted_catalog['service_id'] + " deleted successfully.");
+            else:
+                flash("Catalog for Unknown Service deleted successfully.");
+                flash("Not seeing it ? Please click on this <a href='/catalog-services'><span>link</span></a> to reload the page");
     return render_template('catalog-services.html.jinja', catalogs=data_catalogs);
 
 @app.route('/catalog-service/<id>')
